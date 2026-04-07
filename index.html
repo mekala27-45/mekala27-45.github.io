@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mekala Ajay | Data Analyst & AI Specialist</title>
+  <meta name="description" content="Portfolio of Mekala Ajay — Data Analyst & AI Specialist with 4+ years of experience in data analytics, machine learning, and AI model evaluation." />
+  <meta name="keywords" content="Data Analyst, Data Scientist, AI Specialist, Machine Learning, Python, SQL, Tableau, Power BI, Portfolio" />
+  <meta property="og:title" content="Mekala Ajay | Data Analyst & AI Specialist" />
+  <meta property="og:description" content="Turning data into decisions. Building the future of AI." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #6C63FF;
+      --secondary: #FF6584;
+      --accent1: #00D2FF;
+      --accent2: #FFD93D;
+      --accent3: #6BCB77;
+      --purple: #A855F7;
+      --orange: #F97316;
+      --teal: #14B8A6;
+      --dark: #0F0F23;
+      --dark-card: #1A1A2E;
+      --dark-card2: #16213E;
+      --text: #E8E8F0;
+      --text-muted: #A0A0BC;
+      --grad-hero: linear-gradient(135deg, #6C63FF 0%, #FF6584 50%, #00D2FF 100%);
+      --grad-card: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+      --grad-accent: linear-gradient(135deg, #6C63FF 0%, #00D2FF 100%);
+      --grad-warm: linear-gradient(135deg, #FF6584 0%, #FFD93D 100%);
+      --grad-cool: linear-gradient(135deg, #00D2FF 0%, #6BCB77 100%);
+      --grad-purple: linear-gradient(135deg, #6C63FF 0%, #A855F7 100%);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--dark); color: var(--text); overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: rgba(108,99,255,0.3); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(108,99,255,0.6); }
+
+    a { text-decoration: none; color: inherit; transition: opacity 0.3s; }
+    a:hover { opacity: 0.85; }
+    ul { list-style: none; }
+
+    /* ─── NAVBAR ─── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+      transition: all 0.3s ease;
+    }
+    .navbar.scrolled {
+      background: rgba(15,15,35,0.95); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(108,99,255,0.2);
+    }
+    .nav-logo {
+      font-size: 1.5rem; font-weight: 800;
+      background: var(--grad-hero); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      color: var(--text-muted); font-size: 0.9rem; font-weight: 500;
+      padding-bottom: 4px; border-bottom: 2px solid transparent; transition: all 0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--primary); border-bottom-color: var(--primary);
+    }
+    .mobile-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+    .mobile-menu {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15,15,35,0.98); z-index: 999; flex-direction: column;
+      justify-content: center; align-items: center; gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1.5rem; color: var(--text); font-weight: 600; }
+    .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-toggle { display: block; }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+    }
+    .hero-orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); animation: float 8s ease-in-out infinite;
+    }
+    .hero-orb-1 { top: 10%; left: 10%; width: 300px; height: 300px; background: rgba(108,99,255,0.1); }
+    .hero-orb-2 { bottom: 20%; right: 10%; width: 250px; height: 250px; background: rgba(255,101,132,0.08); animation-direction: reverse; animation-duration: 6s; }
+    .hero-orb-3 { top: 40%; right: 30%; width: 200px; height: 200px; background: rgba(0,210,255,0.06); animation-duration: 10s; }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-label {
+      color: var(--accent1); font-size: 1.1rem; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .hero-name {
+      font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 1rem;
+      background: var(--grad-hero); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-title { font-size: 1.8rem; font-weight: 300; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .hero-tagline { font-size: 1.2rem; color: var(--accent2); font-weight: 500; font-style: italic; margin-bottom: 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 14px 36px; background: var(--grad-accent); color: #fff; border-radius: 50px;
+      font-weight: 700; font-size: 1rem; border: none; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.4); transition: transform 0.3s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-outline {
+      padding: 14px 36px; background: transparent; color: var(--primary); border-radius: 50px;
+      font-weight: 700; font-size: 1rem; border: 2px solid var(--primary); cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover { background: var(--primary); color: #fff; }
+    .scroll-indicator {
+      position: absolute; bottom: 2rem; color: var(--text-muted); animation: bounce 2s infinite;
+    }
+
+    @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+      .hero-name { font-size: 2.8rem; }
+      .hero-title { font-size: 1.3rem; }
+    }
+
+    /* ─── SECTIONS ─── */
+    .section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      text-align: center; margin-bottom: 3rem; padding-top: 1rem;
+    }
+    .section-title h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .section-title .underline {
+      width: 80px; height: 4px; background: var(--grad-hero); margin: 0 auto; border-radius: 2px;
+    }
+
+    /* ─── ABOUT ─── */
+    .about-card {
+      background: var(--grad-card); border-radius: 20px; padding: 2.5rem;
+      border: 1px solid rgba(108,99,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .about-text { font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; color: var(--text); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: center; }
+    .stat-value {
+      font-weight: 800; font-size: 2.5rem;
+      background: var(--grad-hero); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem; font-weight: 500; }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-value { font-size: 2rem; }
+    }
+
+    /* ─── SKILLS ─── */
+    .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .skill-card {
+      background: var(--grad-card); border-radius: 16px; padding: 1.5rem;
+      border: 1px solid rgba(108,99,255,0.1); transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .skill-card:hover { transform: translateY(-4px); }
+    .skill-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .skill-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .skill-name { font-size: 1.1rem; font-weight: 700; }
+    .skill-tags { display: flex; flex-wrap: wrap; }
+    .tag {
+      display: inline-block; padding: 4px 12px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 600; margin: 0 6px 6px 0;
+    }
+
+    @media (max-width: 768px) {
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── EXPERIENCE ─── */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 3px;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent1));
+      border-radius: 2px;
+    }
+    .timeline-item { position: relative; margin-bottom: 2rem; padding-left: 60px; }
+    .timeline-dot {
+      position: absolute; left: 14px; top: 1.5rem; width: 24px; height: 24px;
+      border-radius: 50%; border: 3px solid var(--dark); z-index: 2;
+    }
+    .timeline-card {
+      background: var(--grad-card); border-radius: 16px; padding: 2rem;
+      border: 1px solid rgba(108,99,255,0.1); cursor: pointer; transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .timeline-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+    .timeline-card.expanded { border-color: rgba(108,99,255,0.3); }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+    .exp-role { font-size: 1.3rem; font-weight: 800; }
+    .exp-company { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .exp-location { font-size: 0.85rem; color: var(--text-muted); }
+    .exp-period {
+      padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap;
+    }
+    .platform-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0.5rem 0; }
+    .platform-tag {
+      padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600;
+      background: var(--grad-warm); color: #fff;
+    }
+    .exp-details { margin-top: 1.25rem; display: none; }
+    .exp-details.show { display: block; animation: fadeInUp 0.4s ease; }
+    .exp-bullet {
+      font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;
+    }
+    .exp-bullet::before {
+      content: ''; position: absolute; left: 0; top: 0.55rem;
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .exp-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+    .expand-icon {
+      text-align: center; margin-top: 0.5rem; color: var(--text-muted);
+      transition: transform 0.3s; font-size: 1.2rem;
+    }
+    .expand-icon.rotated { transform: rotate(180deg); }
+
+    @media (max-width: 768px) {
+      .timeline::before { left: 16px; }
+      .timeline-item { padding-left: 48px; }
+      .timeline-dot { left: 6px; width: 20px; height: 20px; }
+    }
+
+    /* ─── PROJECTS ─── */
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .project-card {
+      background: var(--grad-card); border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(108,99,255,0.1); transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .project-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .project-bar { height: 6px; }
+    .project-body { padding: 1.5rem; }
+    .project-title { font-size: 1.05rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.75rem; }
+    .project-impact {
+      display: inline-block; padding: 4px 12px; border-radius: 12px;
+      font-size: 0.7rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem;
+    }
+    .project-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1rem; }
+    .project-tech {
+      display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 0.7rem;
+      color: var(--text-muted); background: rgba(255,255,255,0.05); margin: 0 4px 4px 0;
+    }
+
+    @media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .projects-grid { grid-template-columns: 1fr; } }
+
+    /* ─── EDUCATION ─── */
+    .edu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .edu-card {
+      background: var(--grad-card); border-radius: 16px; padding: 2rem;
+      position: relative; overflow: hidden;
+    }
+    .edu-bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+    .edu-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .edu-icon {
+      width: 50px; height: 50px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+    }
+    .edu-degree { font-size: 1.1rem; font-weight: 700; }
+    .edu-school { font-size: 0.95rem; font-weight: 600; }
+    .edu-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.85rem; }
+
+    @media (max-width: 768px) { .edu-grid { grid-template-columns: 1fr; } }
+
+    /* ─── CONTACT ─── */
+    .contact-text { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2.5rem; text-align: center; }
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+      max-width: 600px; margin: 0 auto;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem;
+      background: var(--grad-card); border-radius: 12px; transition: all 0.3s;
+    }
+    .contact-link:hover { transform: translateY(-2px); }
+    .contact-link i { font-size: 1.2rem; }
+    .contact-link span { font-size: 0.9rem; font-weight: 500; }
+
+    @media (max-width: 600px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      padding: 2rem; text-align: center;
+      border-top: 1px solid rgba(108,99,255,0.15); margin-top: 2rem;
+    }
+    .footer p { color: var(--text-muted); font-size: 0.85rem; }
+
+    /* ─── SCROLL TO TOP ─── */
+    .scroll-top {
+      position: fixed; bottom: 2rem; right: 2rem; width: 48px; height: 48px;
+      border-radius: 50%; background: var(--grad-accent); border: none; cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.4); z-index: 999;
+      color: #fff; font-size: 1.2rem; transition: transform 0.3s;
+    }
+    .scroll-top.visible { display: flex; }
+    .scroll-top:hover { transform: translateY(-3px); }
+
+    /* ─── REVEAL ANIMATION ─── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="#hero" class="nav-logo">MA</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="mobile-toggle" onclick="toggleMobile()"><i class="fas fa-bars"></i></button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMobile()"><i class="fas fa-times"></i></button>
+  <a href="#about" onclick="toggleMobile()">About</a>
+  <a href="#skills" onclick="toggleMobile()">Skills</a>
+  <a href="#experience" onclick="toggleMobile()">Experience</a>
+  <a href="#projects" onclick="toggleMobile()">Projects</a>
+  <a href="#education" onclick="toggleMobile()">Education</a>
+  <a href="#contact" onclick="toggleMobile()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-content">
+    <p class="hero-label">Hello, I'm</p>
+    <h1 class="hero-name">Mekala Ajay</h1>
+    <h2 class="hero-title">Data Analyst & AI Specialist</h2>
+    <p class="hero-tagline">Turning data into decisions. Building the future of AI.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Get In Touch</a>
+      <a href="#projects" class="btn-outline">View Projects</a>
+    </div>
+  </div>
+  <a href="#about" class="scroll-indicator"><i class="fas fa-chevron-down fa-2x"></i></a>
+</section>
+
+<!-- ABOUT -->
+<section class="section reveal" id="about">
+  <div class="section-title"><h2>About Me</h2><div class="underline"></div></div>
+  <div class="about-card">
+    <p class="about-text">
+      Results-driven Data Analyst & AI Specialist with 4+ years of combined experience spanning the full data analytics lifecycle — from requirements gathering and data engineering to machine learning, dashboard development, and executive reporting. I've delivered $3.2M+ in measurable revenue impact for Fortune 500 clients at TCS and evaluated 10,000+ AI model outputs across 6 major platforms. Currently pursuing my MS in Data Science at Montclair State University.
+    </p>
+    <div class="stats-grid">
+      <div><div class="stat-value" data-target="4">0</div><p class="stat-label">Years Experience</p></div>
+      <div><div class="stat-value" data-target="3.2" data-prefix="$" data-suffix="M+">0</div><p class="stat-label">Revenue Impact</p></div>
+      <div><div class="stat-value" data-target="10" data-suffix="K+">0</div><p class="stat-label">AI Outputs Evaluated</p></div>
+      <div><div class="stat-value" data-target="6">0</div><p class="stat-label">AI Platforms</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section reveal" id="skills">
+  <div class="section-title"><h2>Technical Skills</h2><div class="underline"></div></div>
+  <div class="skills-grid" id="skillsGrid"></div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section reveal" id="experience">
+  <div class="section-title"><h2>Professional Experience</h2><div class="underline"></div></div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section reveal" id="projects">
+  <div class="section-title"><h2>Key Projects</h2><div class="underline"></div></div>
+  <div class="projects-grid" id="projectsGrid"></div>
+</section>
+
+<!-- EDUCATION -->
+<section class="section reveal" id="education">
+  <div class="section-title"><h2>Education</h2><div class="underline"></div></div>
+  <div class="edu-grid">
+    <div class="edu-card" style="border: 1px solid rgba(108,99,255,0.3)">
+      <div class="edu-bar" style="background: linear-gradient(90deg, var(--primary), var(--accent1))"></div>
+      <div class="edu-header">
+        <div class="edu-icon" style="background: rgba(108,99,255,0.15); color: var(--primary)"><i class="fas fa-graduation-cap"></i></div>
+        <div>
+          <div class="edu-degree">Master of Science in Data Science</div>
+          <div class="edu-school" style="color: var(--primary)">Montclair State University</div>
+        </div>
+      </div>
+      <div class="edu-meta"><span>New Jersey, USA</span><span style="font-weight:600">Expected May 2026</span></div>
+    </div>
+    <div class="edu-card" style="border: 1px solid rgba(255,101,132,0.3)">
+      <div class="edu-bar" style="background: linear-gradient(90deg, var(--secondary), var(--accent2))"></div>
+      <div class="edu-header">
+        <div class="edu-icon" style="background: rgba(255,101,132,0.15); color: var(--secondary)"><i class="fas fa-graduation-cap"></i></div>
+        <div>
+          <div class="edu-degree">B.Tech in AI & Data Science</div>
+          <div class="edu-school" style="color: var(--secondary)">KL University</div>
+        </div>
+      </div>
+      <div class="edu-meta"><span>Hyderabad, India</span><span style="font-weight:600">Jul 2020 – Apr 2024</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section reveal" id="contact">
+  <div class="section-title"><h2>Get In Touch</h2><div class="underline"></div></div>
+  <p class="contact-text">I'm actively looking for Data Analyst, Data Scientist, Data Engineering, and AI/ML roles.<br>Let's connect and create something impactful together!</p>
+  <div class="contact-grid">
+    <a href="tel:+18624408042" class="contact-link" style="border: 1px solid rgba(107,203,119,0.3)">
+      <i class="fas fa-phone" style="color: var(--accent3)"></i><span>(862) 440-8042</span>
+    </a>
+    <a href="mailto:mekalaajayk@gmail.com" class="contact-link" style="border: 1px solid rgba(255,101,132,0.3)">
+      <i class="fas fa-envelope" style="color: var(--secondary)"></i><span>mekalaajayk@gmail.com</span>
+    </a>
+    <a href="https://www.linkedin.com/in/ajaymekala" target="_blank" class="contact-link" style="border: 1px solid rgba(108,99,255,0.3)">
+      <i class="fab fa-linkedin" style="color: var(--primary)"></i><span>LinkedIn Profile</span>
+    </a>
+    <a href="https://github.com/mekala27-45" target="_blank" class="contact-link" style="border: 1px solid rgba(0,210,255,0.3)">
+      <i class="fab fa-github" style="color: var(--accent1)"></i><span>GitHub Profile</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>&copy; 2026 Mekala Ajay. Built with passion for data & AI.</p>
+</footer>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────
+const skills = [
+  { category: "Languages", icon: "fa-code", color: "#6C63FF", items: ["Python", "SQL", "R", "JavaScript", "Bash"] },
+  { category: "Databases", icon: "fa-database", color: "#FF6584", items: ["PostgreSQL", "MySQL", "BigQuery", "Snowflake", "MongoDB", "Redis", "DuckDB", "MS SQL Server"] },
+  { category: "Analytics & BI", icon: "fa-chart-bar", color: "#00D2FF", items: ["Tableau", "Power BI", "Looker Studio", "Excel (Advanced)", "Matplotlib", "Seaborn", "Plotly"] },
+  { category: "AI & ML", icon: "fa-brain", color: "#FFD93D", items: ["LLM Evaluation (RLHF, DPO)", "Prompt Engineering", "NLP", "Deep Learning", "Neural Networks", "Generative AI", "Computer Vision", "Model Fine-Tuning"] },
+  { category: "Statistical Methods", icon: "fa-square-root-alt", color: "#6BCB77", items: ["Regression", "Hypothesis Testing", "A/B Testing", "Time-Series (ARIMA, Prophet)", "Cohort Analysis", "Feature Engineering", "EDA"] },
+  { category: "Data Engineering", icon: "fa-cogs", color: "#A855F7", items: ["ETL/ELT Pipelines", "PySpark", "Apache Airflow", "dbt", "Data Warehousing", "Data Modeling", "CI/CD", "Docker"] },
+  { category: "Cloud Platforms", icon: "fa-cloud", color: "#F97316", items: ["AWS (S3, Redshift, Lambda)", "GCP (BigQuery, Dataflow, Pub/Sub)", "Azure"] },
+  { category: "Tools", icon: "fa-toolbox", color: "#14B8A6", items: ["Jupyter Notebook", "Git/GitHub", "Jira", "Confluence", "VS Code", "Linux/Bash", "Postman", "Snorkel AI", "CVAT", "Labelbox"] },
+];
+
+const experiences = [
+  {
+    company: "Tata Consultancy Services (TCS)", location: "Hyderabad, India",
+    role: "Data Analyst", period: "Jul 2021 – Jul 2024", color: "#6C63FF",
+    highlights: [
+      "Analyzed datasets across 5+ business units, driving 15% revenue increase and 30% improvement in decision-making for Fortune 500 clients",
+      "Designed 20+ interactive dashboards in Power BI & Tableau with real-time KPI monitoring, eliminating 40% of manual reporting",
+      "Authored advanced SQL queries (joins, CTEs, window functions) for executive-level reporting across MySQL, PostgreSQL, and BigQuery",
+      "Engineered ETL pipelines using Python, PySpark, and Airflow, processing 50TB+ datasets, saving $120K/year in cloud costs",
+      "Built time-series forecasting models (ARIMA, Prophet) achieving 85% accuracy for demand planning",
+      "Conducted A/B testing and cohort analysis, influencing $1.5M+ in strategic decisions for C-suite leadership",
+      "Optimized data models reducing query execution time by 60% for 200+ end users",
+    ],
+    tech: ["Python", "PySpark", "SQL", "Power BI", "Tableau", "AWS", "GCP", "Airflow"],
+  },
+  {
+    company: "Montclair State University", location: "New Jersey, USA",
+    role: "Data Analyst Intern", period: "Apr 2025 – Jul 2025", color: "#00D2FF",
+    highlights: [
+      "Analyzed 114+ community engagement projects evaluating funding flows and impact metrics using statistical analysis and NLP",
+      "Built 20+ interactive dashboards reducing report preparation time by 40% for university leadership",
+      "Produced strategic report improving community-partnership resource allocation by 20%, presented at multi-university conference",
+      "Integrated disparate datasets from university databases, surveys, and external sources using Python and SQL",
+      "Collaborated with faculty researchers and admin leadership to define KPIs and translate findings into visualizations",
+      "Applied NLP techniques to 5,000+ survey responses for evidence-based policy recommendations",
+    ],
+    tech: ["Python", "SQL", "Tableau", "Power BI", "NLP", "Scikit-learn", "Jupyter"],
+  },
+  {
+    company: "Freelance AI — 6 Platforms", location: "Remote",
+    role: "AI Training & Evaluation Specialist", period: "Nov 2022 – Present", color: "#FF6584",
+    platforms: ["Outlier", "Mercor", "Alignerr", "Handshake AI", "Welocalize", "SME Careers"],
+    highlights: [
+      "Evaluated 10,000+ AI outputs with 98%+ labeling consistency using structured rubrics and annotation pipelines",
+      "Developed golden solutions for frontier LLM evaluation (Project Helix) — code generation, debugging, and architectural reasoning",
+      "Created RLHF and DPO preference datasets for large-scale model fine-tuning at leading AI labs",
+      "Performed multi-dimensional model evaluation across Projects Ohm, Watt, and Beet with detailed rubrics",
+      "Contributed to PhD-level AI benchmarks (Gauss HLE on Snorkel AI) for frontier LLM reasoning",
+      "Designed CS/data science problems with Python validation for AI evaluation across telecom, finance, healthcare",
+      "Annotated egocentric video data for robotics learning (Hindsight Project) using deep learning techniques",
+    ],
+    tech: ["Python", "TensorFlow", "PyTorch", "NLP", "RLHF", "DPO", "Snorkel AI", "CVAT", "Docker"],
+  },
+];
+
+const projects = [
+  { title: "Real-Time KPI Analytics Dashboard", desc: "Built predictive analytics dashboards enabling real-time KPI tracking for operations teams at TCS. Optimized data models through indexing and partitioning, reducing query execution time by 60%.", tech: ["Power BI", "Python", "SQL", "PostgreSQL"], gradient: "linear-gradient(135deg, #6C63FF, #00D2FF)", impact: "60% faster queries" },
+  { title: "Frontier LLM Benchmark Suite", desc: "Designed complex software engineering tasks and golden solutions for Project Helix to benchmark state-of-the-art generative AI models on code generation, debugging, and architectural reasoning.", tech: ["Python", "LLM Evaluation", "Prompt Engineering"], gradient: "linear-gradient(135deg, #FF6584, #FFD93D)", impact: "Frontier AI evaluation" },
+  { title: "50TB+ Data Pipeline Optimization", desc: "Engineered scalable ETL pipelines using PySpark and Apache Airflow, processing massive datasets with optimized query performance and cloud cost savings of $120K/year.", tech: ["PySpark", "Airflow", "AWS S3", "BigQuery"], gradient: "linear-gradient(135deg, #00D2FF, #6BCB77)", impact: "$120K/yr saved" },
+  { title: "Community Engagement Analytics", desc: "Analyzed 114+ community projects for Montclair State, applying NLP and time-series methods. Built 20+ dashboards and presented findings at a multi-university conference.", tech: ["Python", "Tableau", "NLP", "Scikit-learn"], gradient: "linear-gradient(135deg, #6C63FF, #A855F7)", impact: "20% better allocation" },
+  { title: "PhD-Level AI Benchmark (Gauss HLE)", desc: "Authored graduate-level computer science and engineering question-answer pairs on Snorkel AI to benchmark frontier large language models on complex multi-step reasoning.", tech: ["Python", "Snorkel AI", "Deep Learning"], gradient: "linear-gradient(135deg, #F97316, #FFD93D)", impact: "PhD-level benchmarks" },
+  { title: "RLHF & DPO Training Data Creation", desc: "Created high-quality structured datasets for classification, summarization, extraction, and RLHF training workflows, directly supporting model fine-tuning at leading AI labs.", tech: ["RLHF", "DPO", "Python", "NLP"], gradient: "linear-gradient(135deg, #14B8A6, #6BCB77)", impact: "LLM fine-tuning" },
+];
+
+// ─── RENDER SKILLS ─────────────────────────────────────────────
+const skillsGrid = document.getElementById('skillsGrid');
+skills.forEach(s => {
+  const tags = s.items.map(i => `<span class="tag" style="background:${s.color}22;color:${s.color};border:1px solid ${s.color}44">${i}</span>`).join('');
+  skillsGrid.innerHTML += `
+    <div class="skill-card" onmouseenter="this.style.borderColor='${s.color}66';this.style.boxShadow='0 8px 30px ${s.color}22'" onmouseleave="this.style.borderColor='rgba(108,99,255,0.1)';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.2)'">
+      <div class="skill-header">
+        <div class="skill-icon" style="background:${s.color}22;color:${s.color}"><i class="fas ${s.icon}"></i></div>
+        <div class="skill-name">${s.category}</div>
+      </div>
+      <div class="skill-tags">${tags}</div>
+    </div>`;
+});
+
+// ─── RENDER EXPERIENCE ────────────────────────────────────────
+const timeline = document.getElementById('timeline');
+experiences.forEach((exp, i) => {
+  const platforms = exp.platforms ? `<div class="platform-tags">${exp.platforms.map(p => `<span class="platform-tag">${p}</span>`).join('')}</div>` : '';
+  const bullets = exp.highlights.map(h => `<li class="exp-bullet" style="color:var(--text)"><span style="position:absolute;left:0;top:0.55rem;width:8px;height:8px;border-radius:50%;background:${exp.color}"></span>${h}</li>`).join('');
+  const tags = exp.tech.map(t => `<span class="tag" style="background:${exp.color}22;color:${exp.color};border:1px solid ${exp.color}44">${t}</span>`).join('');
+
+  timeline.innerHTML += `
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:${exp.color};box-shadow:0 0 0 3px ${exp.color}44, 0 0 20px ${exp.color}33"></div>
+      <div class="timeline-card" id="expCard${i}" onclick="toggleExp(${i})">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role" style="color:${exp.color}">${exp.role}</div>
+            <div class="exp-company">${exp.company}</div>
+            <div class="exp-location">${exp.location}</div>
+          </div>
+          <span class="exp-period" style="background:${exp.color}22;color:${exp.color}">${exp.period}</span>
+        </div>
+        ${platforms}
+        <div class="exp-details" id="expDetails${i}">
+          <ul style="list-style:none;padding:0">${bullets}</ul>
+          <div class="exp-tech">${tags}</div>
+        </div>
+        <div class="expand-icon" id="expIcon${i}"><i class="fas fa-chevron-down"></i></div>
+      </div>
+    </div>`;
+});
+// Auto-expand first experience
+document.getElementById('expDetails0').classList.add('show');
+document.getElementById('expIcon0').classList.add('rotated');
+
+function toggleExp(i) {
+  const details = document.getElementById('expDetails' + i);
+  const icon = document.getElementById('expIcon' + i);
+  details.classList.toggle('show');
+  icon.classList.toggle('rotated');
+}
+
+// ─── RENDER PROJECTS ──────────────────────────────────────────
+const projectsGrid = document.getElementById('projectsGrid');
+projects.forEach(p => {
+  const tags = p.tech.map(t => `<span class="project-tech">${t}</span>`).join('');
+  projectsGrid.innerHTML += `
+    <div class="project-card">
+      <div class="project-bar" style="background:${p.gradient}"></div>
+      <div class="project-body">
+        <div class="project-title">${p.title}</div>
+        <span class="project-impact" style="background:${p.gradient}">${p.impact}</span>
+        <p class="project-desc">${p.desc}</p>
+        <div>${tags}</div>
+      </div>
+    </div>`;
+});
+
+// ─── NAVBAR SCROLL ────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('navbar');
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+  const scrollTop = document.getElementById('scrollTop');
+  scrollTop.classList.toggle('visible', window.scrollY > 500);
+
+  // Active nav link
+  const sections = ['hero','about','skills','experience','projects','education','contact'];
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 200) current = id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// ─── MOBILE MENU ──────────────────────────────────────────────
+function toggleMobile() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ─── REVEAL ON SCROLL ─────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── ANIMATED COUNTERS ────────────────────────────────────────
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseFloat(el.dataset.target);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const isPlus = !suffix.includes('+') && target === 4;
+      let current = 0;
+      const step = target / 40;
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        const display = target % 1 !== 0 ? current.toFixed(1) : Math.floor(current);
+        el.textContent = prefix + display + suffix + (isPlus ? '+' : '');
+      }, 37);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-value').forEach(el => counterObserver.observe(el));
+</script>
+</body>
+</html>
