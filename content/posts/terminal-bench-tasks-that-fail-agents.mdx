@@ -1,0 +1,91 @@
+---
+title: 'Writing Terminal-Bench tasks that frontier agents actually fail'
+description: 'What separates a task that measures a model from one that measures your prose, drawn from 50 accepted Terminal-Bench environments under the Terminus 2 scaffold.'
+date: '2026-09-06'
+draft: true
+---
+
+A Terminal-Bench task is three things: a containerized environment, a reference solution, and an automated verification test. Writing one that a frontier agent fails is easy. Writing one that a frontier agent fails _for the right reason_ is the whole job.
+
+I have had 50 or so accepted under the Terminus 2 scaffold. Most of what I know about it came from the ones that came back.
+
+## The verification test is the specification
+
+The single highest leverage habit I have is writing the verification test before the task prose.
+
+Every task that came back for revision was one where I wrote the prose first, felt good about it, and wrote the test last. When the test comes last it gets written to match what you meant, and what you meant is not visible to the agent. A second reading of the problem sneaks in, the agent takes it, the test rejects it, and the task now measures how closely a model guesses your intent.
+
+When the test comes first, the prose has a job: describe exactly the state the test accepts. Ambiguity becomes obvious while you are writing, because you can see the gap between what the words permit and what the assertion allows.
+
+```python
+# Written first. The prose then has to describe exactly this state.
+def test_partition_replaced(spark, table):
+    rows = spark.read.table(table).where("event_date = '2026-03-01'").collect()
+    assert len(rows) == 3
+    assert spark.read.table(table).count() == 1_204  # untouched partitions intact
+```
+
+That second assertion is the interesting one. It is the difference between "did it write the right rows" and "did it write the right rows without destroying the rest of the table," and it is the kind of thing you only think to assert when the test is the artifact you are designing.
+
+## Hard and ambiguous are not the same axis
+
+The brief is to challenge frontier agents while staying unambiguous and solvable. Those pull against each other only if you make difficulty out of vagueness.
+
+Difficulty that works:
+
+- **State that has to be tracked across steps.** The agent must remember what it did three commands ago, and the environment does not remind it.
+- **A constraint that rules out the obvious approach.** Not a trick, a real reason, stated plainly.
+- **A destructive wrong path that looks correct.** The agent has to know why the plausible command is wrong.
+- **Multi-file reasoning.** The answer is not in the file the task names.
+
+Difficulty that does not work:
+
+- Underspecified success criteria.
+- Obscure flags with no discoverable documentation in the container.
+- Environments that require guessing an internal convention.
+
+The second list produces tasks that strong models fail and weak models also fail, which measures nothing. The first list produces a gradient, which is the point.
+
+## Shell state is the most reliable failure mode I know
+
+The runner executes each command in a fresh shell. Agents routinely forget this.
+
+Give an agent a virtualenv at `/opt/venv` and a task that says do not activate it, and a meaningful share of runs will still produce:
+
+```bash
+source /opt/venv/bin/activate && pytest -x
+```
+
+followed by a confident sentence explaining that the interpreter is now on PATH for the rest of the session. It is not. The next command starts a new shell and the activation is gone.
+
+What makes this a good benchmark target is that it is a grounding failure rather than a knowledge failure. The model knows what a virtualenv is. It has built a mental model of a continuous session that the environment does not provide, and it never checks. Tasks built around that gap discriminate well, and the failures are legible enough to be useful to whoever is training the model.
+
+The related family is filesystem state: assuming a working directory persists, assuming a file written in one step is on the path expected in another, assuming an environment variable survives.
+
+## Calibrate against the agent, not against yourself
+
+The instinct is to calibrate difficulty against your own experience of the problem. That is the wrong reference. A task that is tedious for a person can be trivial for an agent, and a task that is trivial for a person can be a wall.
+
+The practical method is to run the scaffold before submitting. If the agent solves it first try, the task is either too easy or the test is too loose, and those are different fixes. If the agent fails every time in the same way, check that the failure is the one you designed and not an artifact of the environment. If it fails in a different way every run, the task is probably ambiguous.
+
+That loop costs time. It is also the only thing that separates a submitted task from an accepted one.
+
+## Write the reference solution as if someone will read it
+
+The reference solution is not scaffolding. It is the artifact that proves the task is solvable within the constraints you stated, and it gets read by whoever reviews the task.
+
+Two habits pay off. First, solve it the way the constraints force, not the way you would if the constraints were absent, so the review can see that the constraint is real. Second, keep it minimal. A reference solution with extra steps invites the reviewer to wonder whether the extra steps are load bearing.
+
+## Adjacent work, same discipline
+
+The other half of this work is grading, not authoring: long-horizon agent trajectories scored on tool-use correctness, sub-goal decomposition, state tracking and recovery from failure, and side-by-side preference comparisons on helpfulness, harmlessness, honesty and completeness.
+
+They inform each other more than I expected. Grading trajectories is where you learn which failure modes are systematic, and systematic failure modes are exactly what a good task is built around. The shell grounding family came out of trajectory grading before it went into tasks.
+
+The same habit carries: name the failure precisely. "The agent got confused" is not a grade. "The agent assumed shell state persisted across a runner boundary and never verified" is, and it is the difference between a score and a signal.
+
+## What I would tell someone starting
+
+Write the test first. Make difficulty out of state, constraints and consequence rather than out of vagueness. Run the scaffold before you submit. Grade a few dozen trajectories before you write a task, because the failure modes you have watched are the ones you can build around.
+
+And accept that some tasks will come back. The review is doing the same thing the verification test does: checking whether the words permit exactly one reading.

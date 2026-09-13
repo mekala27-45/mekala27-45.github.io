@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+.env*.local
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+playwright-report
+test-results
+.vercel
+analyze
+*.tmp.mjs
+*.tmp.sh
+lighthouse/report.json

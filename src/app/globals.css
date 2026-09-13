@@ -1,0 +1,1122 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * Design tokens. Declared once here, consumed everywhere as utilities.
+ * `inline` keeps the utilities pointing at the raw custom properties so
+ * the theme can be swapped at runtime without regenerating classes.
+ * ------------------------------------------------------------------ */
+
+@theme inline {
+  /* Drop the stock palette so no component can reach for an off-system hue. */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-canvas: var(--canvas);
+  --color-raised: var(--raised);
+  --color-sunken: var(--sunken);
+  --color-edge: var(--edge);
+  --color-edge-strong: var(--edge-strong);
+  --color-edge-control: var(--edge-control);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-warm: var(--warm);
+  --color-success: var(--success);
+
+  --font-display: var(--face-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--face-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--face-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-hero: clamp(2.75rem, 8vw, 7rem);
+  --text-hero--line-height: 0.92;
+  --text-section: clamp(2rem, 4.5vw, 3.5rem);
+  --text-section--line-height: 1.02;
+  --text-headline: clamp(1.5rem, 2.6vw, 2.125rem);
+  --text-headline--line-height: 1.1;
+  --text-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-body--line-height: 1.6;
+  --text-lede: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+  --text-lede--line-height: 1.55;
+  --text-prose: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --text-prose--line-height: 1.7;
+
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+
+  --spacing-gutter: clamp(1.25rem, 5vw, 6rem);
+  --spacing-section: clamp(6rem, 12vh, 10rem);
+
+  --container-content: 80rem;
+  --container-bleed: 90rem;
+
+  --radius-card: 14px;
+}
+
+/* Dark is the default surface. */
+:root {
+  color-scheme: dark;
+  --canvas: oklch(0.14 0.012 265);
+  --raised: oklch(0.18 0.014 265);
+  --sunken: oklch(0.11 0.01 265);
+  --edge: oklch(0.26 0.016 265);
+  --edge-strong: oklch(0.34 0.02 265);
+  /* Interactive boundaries carry 3:1 against every surface. Decorative
+     hairlines use --edge, which is deliberately quieter. */
+  --edge-control: oklch(0.5 0.02 265);
+  --code-bg: oklch(0.11 0.01 265);
+  --ink: oklch(0.96 0.004 265);
+  --ink-2: oklch(0.72 0.012 265);
+  --ink-3: oklch(0.62 0.014 265);
+  --accent: oklch(0.78 0.17 195);
+  --accent-soft: oklch(0.78 0.17 195 / 0.14);
+  --warm: oklch(0.8 0.16 75);
+  --success: oklch(0.75 0.15 150);
+  --edge-lit: oklch(1 0 0 / 0.06);
+  --grain-opacity: 0.03;
+  --field-opacity: 0.3;
+  --mesh: 1;
+}
+
+/* No stored choice and no script: follow the system. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    color-scheme: light;
+    --canvas: oklch(0.98 0.004 85);
+    --raised: oklch(1 0 0);
+    --sunken: oklch(0.955 0.005 85);
+    --edge: oklch(0.87 0.006 265);
+    --edge-strong: oklch(0.74 0.01 265);
+    --edge-control: oklch(0.6 0.012 265);
+    --code-bg: oklch(1 0 0);
+    --code-bg: oklch(1 0 0);
+    --ink: oklch(0.2 0.01 265);
+    --ink-2: oklch(0.42 0.012 265);
+    --ink-3: oklch(0.5 0.014 265);
+    --accent: oklch(0.48 0.16 195);
+    --accent-soft: oklch(0.48 0.16 195 / 0.1);
+    --warm: oklch(0.54 0.14 55);
+    --success: oklch(0.52 0.13 150);
+    --edge-lit: oklch(0.2 0.01 265 / 0.08);
+    --grain-opacity: 0.02;
+    --field-opacity: 0.22;
+    --mesh: 0.5;
+  }
+}
+
+/* An explicit choice always wins over the system preference. */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --canvas: oklch(0.98 0.004 85);
+  --raised: oklch(1 0 0);
+  --sunken: oklch(0.955 0.005 85);
+  --edge: oklch(0.87 0.006 265);
+  --edge-strong: oklch(0.74 0.01 265);
+  --edge-control: oklch(0.6 0.012 265);
+  --code-bg: oklch(1 0 0);
+  --ink: oklch(0.2 0.01 265);
+  --ink-2: oklch(0.42 0.012 265);
+  --ink-3: oklch(0.5 0.014 265);
+  --accent: oklch(0.48 0.16 195);
+  --accent-soft: oklch(0.48 0.16 195 / 0.1);
+  --warm: oklch(0.54 0.14 55);
+  --success: oklch(0.52 0.13 150);
+  --edge-lit: oklch(0.2 0.01 265 / 0.08);
+  --grain-opacity: 0.02;
+  --field-opacity: 0.22;
+  --mesh: 0.5;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: oklch(0.14 0.012 265);
+  --raised: oklch(0.18 0.014 265);
+  --sunken: oklch(0.11 0.01 265);
+  --edge: oklch(0.26 0.016 265);
+  --edge-strong: oklch(0.34 0.02 265);
+  /* Interactive boundaries carry 3:1 against every surface. Decorative
+     hairlines use --edge, which is deliberately quieter. */
+  --edge-control: oklch(0.5 0.02 265);
+  --code-bg: oklch(0.11 0.01 265);
+  --ink: oklch(0.96 0.004 265);
+  --ink-2: oklch(0.72 0.012 265);
+  --ink-3: oklch(0.62 0.014 265);
+  --accent: oklch(0.78 0.17 195);
+  --accent-soft: oklch(0.78 0.17 195 / 0.14);
+  --warm: oklch(0.8 0.16 75);
+  --success: oklch(0.75 0.15 150);
+  --edge-lit: oklch(1 0 0 / 0.06);
+  --grain-opacity: 0.03;
+  --field-opacity: 0.3;
+  --mesh: 1;
+}
+
+@layer base {
+  * {
+    border-color: var(--edge);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--canvas);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  /* Every counter and metric is tabular so ticking numbers never reflow. */
+  .tnum,
+  [data-counter] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  /* The theme switch paints its own circular reveal, so the default
+     cross fade is switched off for that case only. */
+  html[data-vt-mode='theme']::view-transition-old(root),
+  html[data-vt-mode='theme']::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  html[data-vt-mode='route']::view-transition-old(root) {
+    animation-duration: 240ms;
+  }
+
+  html[data-vt-mode='route']::view-transition-new(root) {
+    animation-duration: 420ms;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: var(--container-content);
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .shell-bleed {
+    width: 100%;
+    max-width: var(--container-bleed);
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .section-pad {
+    padding-block: var(--spacing-section);
+  }
+
+  /* Raised surfaces read as lit material, not as floating cards. */
+  .lit {
+    background-color: var(--raised);
+    border: 1px solid var(--edge);
+    box-shadow: inset 0 1px 0 0 var(--edge-lit);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-variant-ligatures: none;
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--edge);
+  }
+
+  .below-fold {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+
+  .prose-block p {
+    font-size: var(--text-prose);
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+
+  .prose-block strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .prose-block b {
+    color: var(--accent);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .skip-link {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    left: 0.75rem;
+    top: 0.75rem;
+    z-index: 100;
+    transform: translateY(-160%);
+    background: var(--accent);
+    color: var(--canvas);
+    padding: 0.625rem 1rem;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    transition: transform 160ms var(--ease-enter);
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  /* Film grain. A 128px turbulence tile fixed to the viewport, which removes
+     the gradient banding on the dark surfaces. Decoding the filter costs a
+     full viewport paint, so it is attached after the page has painted rather
+     than sitting on the largest contentful paint path. */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0;
+    background-size: 128px 128px;
+    transition: opacity 400ms linear;
+  }
+
+  html[data-grain='on'] .grain {
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .text-gutter-bleed {
+    margin-inline-start: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .text-gutter-bleed {
+      margin-inline-start: -4vw;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Motion. Reveals run once, on transform and opacity only.
+ * The markup ships in its final visible state, so with JavaScript off
+ * nothing is hidden.
+ * ------------------------------------------------------------------ */
+
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 600ms var(--ease-enter),
+    transform 600ms var(--ease-enter);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+html.js [data-reveal][data-revealed='true'] {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+@keyframes marquee-track {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes cue-travel {
+  0% {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 400%, 0);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.js [data-reveal] {
+    transform: none;
+    transition: opacity 150ms linear;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 150ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Component behaviour that is cheaper in CSS than in JavaScript.
+ * ------------------------------------------------------------------ */
+
+.marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee-track {
+  animation: marquee-track var(--marquee-duration, 46s) linear infinite;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* The status dot ring. One pseudo element, scale and opacity only. */
+.status-dot {
+  position: relative;
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--warm);
+  flex: none;
+}
+
+.status-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px solid var(--warm);
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+/* Cursor tracking spotlight on the case study cards. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+  transition:
+    transform 400ms var(--ease-enter),
+    border-color 180ms linear;
+}
+
+.spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 320ms linear;
+  background: radial-gradient(
+    380px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    var(--accent-soft),
+    transparent 62%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .spotlight:hover {
+    transform: translate3d(0, -4px, 0);
+    border-color: var(--edge-strong);
+  }
+
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+}
+
+.spotlight:focus-within {
+  border-color: var(--edge-strong);
+}
+
+/* Scroll cue under the hero. */
+.cue-rail {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  background: var(--edge);
+  overflow: hidden;
+}
+
+.cue-rail::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 12px;
+  background: var(--accent);
+  animation: cue-travel 2s ease-in-out infinite;
+}
+
+/* Timeline rail fill. Scroll driven where the browser supports it, which
+   keeps it off the main thread; a Motion driven fallback covers the rest. */
+.rail-fill {
+  transform-origin: top center;
+}
+
+@supports (animation-timeline: view()) {
+  html.js .rail-fill[data-css-timeline='true'] {
+    animation: rail-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 60% cover 80%;
+  }
+}
+
+@keyframes rail-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Theme switch. The circular reveal is driven from the toggle button. */
+::view-transition-old(root) {
+  z-index: 0;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .cue-rail::after,
+  .status-dot::after {
+    animation: none !important;
+  }
+
+  .status-dot::after {
+    opacity: 0.5;
+  }
+
+  html.js .rail-fill[data-css-timeline='true'] {
+    animation: none;
+    transform: scaleY(1);
+  }
+}
+
+/* Lenis hands scrolling back to the browser when it is not running. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Overlays use the native top layer, so the backdrop is styled, not built. */
+dialog::backdrop {
+  background: oklch(0.06 0.01 265 / 0.62);
+  backdrop-filter: blur(6px);
+}
+
+dialog {
+  color: var(--ink);
+}
+
+/* Mobile sheet links stagger in at 60ms, and nowhere else on the site. */
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+dialog[open] .sheet-item {
+  animation: sheet-in 420ms var(--ease-enter) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Hero name. One masked line per word, transform only, and it plays once. */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.line-mask > span {
+  display: block;
+}
+
+@keyframes line-rise {
+  from {
+    transform: translate3d(0, 110%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+html.js .line-mask > span {
+  animation: line-rise 900ms var(--ease-enter) both;
+  animation-delay: var(--line-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .line-mask > span {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * The pinned platform sequence.
+ * ------------------------------------------------------------------ */
+
+.platform-pin {
+  position: relative;
+}
+
+.platform-figure {
+  display: none;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .platform-figure {
+    display: block;
+  }
+}
+
+.platform[data-mode='pinned'] .platform-pin {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-content: center;
+  gap: 2.5rem;
+  height: 100svh;
+  padding-block: 5.5rem 3rem;
+}
+
+.platform[data-mode='pinned'] .platform-figure {
+  align-self: center;
+}
+
+.platform[data-mode='pinned'] .platform-counter {
+  position: absolute;
+  top: 5.5rem;
+  right: 0;
+}
+
+.platform[data-mode='pinned'] .platform-steps {
+  position: relative;
+  min-height: 7.5rem;
+  max-width: 46rem;
+}
+
+.platform[data-mode='pinned'] .platform-step {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 400ms linear;
+}
+
+.platform[data-mode='pinned'] .platform-step[data-state='active'] {
+  opacity: 1;
+}
+
+.platform[data-mode='flow'] .platform-counter {
+  margin-bottom: 1.5rem;
+}
+
+/* State is carried by the rail colour and the title colour rather than by
+   opacity, so every caption stays above the contrast floor. */
+.platform[data-mode='flow'] .platform-step {
+  border-left: 1px solid var(--edge);
+  padding: 1.125rem 0 1.125rem 1.25rem;
+  transition: border-color 300ms linear;
+}
+
+.platform[data-mode='flow'] .platform-step[data-state='idle'] .platform-step-title {
+  color: var(--ink-3);
+}
+
+.platform[data-mode='flow'] .platform-step[data-state='idle'] .platform-step-caption {
+  color: var(--ink-3);
+}
+
+.platform[data-mode='flow'] .platform-step[data-state='past'] {
+  border-left-color: var(--edge-control);
+}
+
+.platform[data-mode='flow'] .platform-step[data-state='active'] {
+  border-left-color: var(--accent);
+}
+
+/* Diagram parts. */
+.platform-svg {
+  font-family: var(--font-mono);
+}
+
+.p-node rect {
+  fill: transparent;
+  stroke: var(--edge);
+  stroke-width: 1;
+  transition:
+    fill 400ms linear,
+    stroke 400ms linear,
+    opacity 400ms linear;
+}
+
+.p-node text {
+  fill: var(--ink-3);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  transition: fill 400ms linear;
+}
+
+.p-node .p-node-index {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  fill: var(--ink-3);
+  opacity: 0.7;
+}
+
+.p-node[data-kind='sink'] rect {
+  stroke-dasharray: 4 4;
+}
+
+.p-node[data-state='past'] rect {
+  stroke: color-mix(in oklch, var(--accent) 60%, var(--edge));
+  fill: var(--raised);
+}
+
+.p-node[data-state='past'] text {
+  fill: var(--ink-2);
+}
+
+.p-node[data-state='active'] rect {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  fill: var(--raised);
+}
+
+.p-node[data-state='active'] text {
+  fill: var(--ink);
+}
+
+.p-node[data-state='active'] .p-node-index {
+  fill: var(--accent);
+  opacity: 1;
+}
+
+.p-loop-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  fill: var(--ink-3);
+  opacity: 0;
+  transition: opacity 300ms linear 380ms;
+}
+
+.p-loop-label[data-state='on'],
+.platform[data-mode='flow'] .p-loop-label {
+  opacity: 1;
+}
+
+.p-edge {
+  color: var(--edge);
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  transition:
+    stroke-dashoffset 600ms var(--ease-enter),
+    color 400ms linear,
+    opacity 200ms linear;
+}
+
+.p-edge[data-state='on'] {
+  color: color-mix(in oklch, var(--accent) 70%, var(--edge));
+  stroke-dashoffset: 0;
+  opacity: 1;
+  transition:
+    stroke-dashoffset 600ms var(--ease-enter),
+    color 400ms linear,
+    opacity 200ms linear 380ms;
+}
+
+.p-edge[data-dashed='true'] {
+  stroke-dasharray: 0.012 0.01;
+  stroke-dashoffset: 0;
+}
+
+/* With the sequence not running, the schematic reads as a finished diagram
+   rather than a half drawn one. This is also the no-JavaScript view. */
+.platform[data-mode='flow'] .p-edge {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  color: color-mix(in oklch, var(--accent) 45%, var(--edge));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p-edge,
+  .p-node rect,
+  .p-node text {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Print. One column, ink on paper, no site furniture.
+ * ------------------------------------------------------------------ */
+
+@media print {
+  @page {
+    margin: 14mm 14mm;
+  }
+
+  :root,
+  :root[data-theme='dark'] {
+    --canvas: #ffffff;
+    --raised: #ffffff;
+    --sunken: #ffffff;
+    --ink: #000000;
+    --ink-2: #1a1a1a;
+    --ink-3: #444444;
+    --edge: #bbbbbb;
+    --edge-strong: #888888;
+    --accent: #000000;
+    --edge-control: #888888;
+    --edge-lit: transparent;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  header[class*='fixed'],
+  footer,
+  .grain,
+  .no-print,
+  dialog,
+  canvas {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .resume-doc {
+    padding: 0 !important;
+  }
+
+  .resume-doc .shell {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .resume-role {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000000 !important;
+  }
+
+  .below-fold {
+    content-visibility: visible;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Long form post body.
+ * ------------------------------------------------------------------ */
+
+.post-body {
+  color: var(--ink-2);
+  font-size: var(--text-prose);
+  line-height: 1.75;
+}
+
+.post-body > * + * {
+  margin-top: 1.25rem;
+}
+
+.post-body h2 {
+  font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+  color: var(--ink);
+  margin-top: 3rem;
+  scroll-margin-top: 6rem;
+}
+
+.post-body h3 {
+  font-size: 1.125rem;
+  color: var(--ink);
+  margin-top: 2.25rem;
+  scroll-margin-top: 6rem;
+}
+
+.post-body strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.post-body a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+  text-decoration: underline;
+}
+
+.post-body ul,
+.post-body ol {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.post-body ul {
+  list-style: disc;
+}
+
+.post-body ol {
+  list-style: decimal;
+}
+
+.post-body blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1rem;
+  color: var(--ink-2);
+}
+
+.post-body code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--sunken);
+  border: 1px solid var(--edge);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+.post-body pre {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+
+/* Shiki dual theme, switched with the site theme rather than the OS. */
+.post-body pre code span {
+  color: var(--shiki-dark);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .post-body pre code span {
+    color: var(--shiki-light);
+  }
+}
+
+:root[data-theme='light'] .post-body pre code span {
+  color: var(--shiki-light);
+}
+
+/* Resume print density. Tuned so the printed file matches the two page
+   document that goes out with applications. */
+@media print {
+  .resume-doc {
+    font-size: 9.5pt;
+    line-height: 1.42;
+  }
+
+  .resume-doc h1 {
+    font-size: 21pt;
+  }
+
+  .resume-doc h2 {
+    font-size: 8pt;
+    letter-spacing: 0.16em;
+    margin-bottom: 0.35rem;
+  }
+
+  .resume-doc h3 {
+    font-size: 10.5pt;
+  }
+
+  .resume-doc p,
+  .resume-doc li,
+  .resume-doc dd {
+    font-size: 9.5pt !important;
+    line-height: 1.42 !important;
+  }
+
+  .resume-doc dt {
+    font-size: 9.5pt !important;
+  }
+
+  .resume-doc section {
+    margin-top: 14pt !important;
+  }
+
+  .resume-doc h2 {
+    break-after: avoid;
+  }
+
+  .resume-doc h3 {
+    break-after: avoid;
+  }
+
+  .resume-doc header {
+    padding-bottom: 0.5rem;
+  }
+
+  .resume-doc .flex.flex-col.gap-8 {
+    gap: 0.7rem;
+  }
+
+  .resume-doc .flex.flex-col.gap-3 {
+    gap: 0.35rem;
+  }
+
+  .resume-doc ul {
+    margin-top: 0.35rem !important;
+    gap: 0.2rem !important;
+  }
+
+  .resume-doc .mt-10,
+  .resume-doc .mt-3,
+  .resume-doc .mt-4,
+  .resume-doc .mt-5 {
+    margin-top: 0.35rem !important;
+  }
+}
+
+/* Timeline node. Lit by a scoped view timeline, so no component hydrates for
+   it; where that is unsupported the node simply stays lit. */
+.timeline-item {
+  view-timeline-name: --timeline-item;
+  view-timeline-axis: block;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 1.65rem;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  transform: translateX(-50%) scale(1.4);
+}
+
+@supports (animation-timeline: view()) {
+  html.js .timeline-dot {
+    animation: dot-light linear both;
+    animation-timeline: --timeline-item;
+    animation-range: cover 28% cover 48%;
+  }
+}
+
+@keyframes dot-light {
+  from {
+    border-color: var(--edge-control);
+    background: var(--canvas);
+    transform: translateX(-50%) scale(1);
+  }
+  to {
+    border-color: var(--accent);
+    background: var(--accent);
+    transform: translateX(-50%) scale(1.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .timeline-dot {
+    animation: none;
+  }
+}

@@ -1,0 +1,81 @@
+---
+title: 'What breaks when you put a pricing model in front of 200,000 predictions a month'
+description: 'The failures that showed up once promotion and clearance pricing ran on a schedule rather than in a notebook, and what the platform had to absorb.'
+date: '2026-09-10'
+draft: true
+---
+
+A pricing model in a notebook has one job: produce a number that looks defensible. A pricing model in production has five, and only one of them is the number. It has to produce that number on a schedule, from data that arrived on its own, in a form the downstream system will accept, at a quality someone in finance will sign, and it has to keep doing that when you are not watching.
+
+The Walmart promotion and clearance systems serve over 200,000 predictions a month. Most of what I have learned in the last two years came from the gap between those five jobs and the one.
+
+## The offline number is an argument, not evidence
+
+The first version of PromotionsAI had a clean offline story. Candidate promotions scored, ranked, held out, lift estimated. The estimate was good. It took two full experiment cycles before anyone could say the estimate meant anything, because nobody had established that the offline lift tracked the realized revenue lift.
+
+That is not a modelling failure. It is a sequencing failure. The correlation work was always going to be necessary, and doing it after the model meant the model sat in review while the correlation was built.
+
+The lesson generalizes past pricing. Any model whose acceptance metric is a business outcome needs the bridge between its offline metric and that outcome built first, because until the bridge exists there is no way to tell a good model from a lucky one. If I were starting PromotionsAI again, the first sprint would produce nothing but that mapping.
+
+## Training and serving have to read the same table
+
+The classic production failure is feature skew: the training pipeline computes a feature one way, the serving path computes it another, and the model quietly degrades against a distribution it never saw.
+
+The structural fix is boring and it works. Both paths read Delta Lake. Feature computation and registration are automated rather than run by hand, so there is one implementation of a feature and one place it comes from. Versioned storage is what makes this enforceable: you can point at the exact table state a model was trained against.
+
+```python
+# Both the training job and the scoring job resolve features the same way.
+features = (
+    spark.read.format("delta")
+    .option("timestampAsOf", run.feature_snapshot_ts)
+    .table("pricing.promo_features")
+)
+```
+
+Getting this right is where roughly 40 percent of the research-to-production lead time reduction came from. Not from faster training. From removing the step where someone reimplements a feature for serving and then spends a week finding out why the numbers moved.
+
+## Nothing reaches production without passing the registry
+
+Every model that serves traffic is promoted through the MLflow registry, and promotion is gated. This sounds like process overhead until the first time you have to answer the question "which version produced the recommendation on this SKU on this date," which someone will ask, and which you cannot answer from a notebook.
+
+Unified lineage is what makes the answer a lookup instead of an investigation. Parameters, metrics and the data the run read are attached to the version, and the version is attached to the deployment.
+
+The secondary effect is on rollbacks. When a bad model is a registry version rather than a file on a cluster, reverting it is a release rather than an incident. That is half of the story behind halving incident MTTR. The other half is blue-green.
+
+## Releases should be reversible before they are fast
+
+Inference is Dockerized and released blue-green through Azure Pipelines. The new version takes traffic alongside the old one, and if it misbehaves the traffic goes back. The service SLA is 99.9 percent, which sounds like a monitoring target and is actually a release design target: you cannot hold that number if a bad deploy means a rebuild.
+
+There is a temptation on a small team to skip this, because two pricing systems do not feel like enough surface area to justify it. That is a mistake in timing. You build the reversible path while nothing is on fire, because the day you need it is the day you have no time to build it.
+
+## Ingestion is where the outages actually come from
+
+The failures that woke people up were almost never the model. They were a source system changing a column, a feed arriving late, or a partial load that nobody caught until the recommendations looked strange.
+
+The answer was to stop treating ingestion as glue. PySpark and Delta Lake ingestion with validation and enrichment, plus reusable connector and transformation libraries, means a new source is a configuration rather than a new script. New source onboarding is about 70 percent faster on that path, but the number that matters more is that a malformed load fails at the boundary instead of propagating into a price.
+
+If you are building this, put the validation where the data arrives. Every layer you let bad data past is another layer that has to defend itself.
+
+## Markdowns taught me to design the measurement first
+
+ClearanceAI sets regional markdowns twice a month from demand elasticity models combined with stock age heuristics. It lifted sell-through 4.6 percent.
+
+That number is defensible because of the regional holdout structure, and the regional holdout structure was retrofitted. The regions that got the markdown were chosen, not assigned, which means anything that made them candidates (older stock, softer demand) sits inside any naive comparison. Until clean regional controls existed, the result was an observation rather than a finding.
+
+Retrofitting cost a cycle. More importantly it made the early results harder to argue for than they needed to be, in a room where the people who have to act on the recommendation are entitled to ask how you know.
+
+Design the measurement at the same time as the model. The experiment structure is part of the product.
+
+## Drift detection is a retraining trigger, not a dashboard
+
+Monitoring that nobody acts on is decoration. The useful version closes the loop: drift detection feeds back into retraining, so the signal has somewhere to go.
+
+Getting that wiring right matters more than the sophistication of the detector. A simple distributional check that triggers a retrain beats a well-instrumented panel that produces an email.
+
+## What the platform is actually for
+
+Two pricing systems do not, on their own, justify a platform. What justifies it is that the third, fourth and fifth models do not each need their own ingestion, their own feature path, their own registry conventions and their own release story.
+
+Cookiecutter templates, Databricks job scaffolds and distributed training playbooks cut the time to stand up a new experiment from days to under an hour. Experiment turnaround dropped 60 percent. Neither number is about any individual model. They are about how much of the work is already decided before anyone starts.
+
+The thing I would tell someone standing up their first production ML system: the model is the part you will spend the least time on, and the part that will break least often. Build the boring parts first, and build the measurement before the model.
