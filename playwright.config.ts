@@ -19,9 +19,18 @@ export default defineConfig({
     ...(executablePath ? { launchOptions: { executablePath, args: ['--no-proxy-server'] } } : {}),
   },
   projects: [
-    { name: 'mobile-390', use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 844 } } },
-    { name: 'tablet-834', use: { ...devices['Desktop Chrome'], viewport: { width: 834, height: 1112 } } },
-    { name: 'desktop-1440', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
+    {
+      name: 'mobile-390',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 844 } },
+    },
+    {
+      name: 'tablet-834',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 834, height: 1112 } },
+    },
+    {
+      name: 'desktop-1440',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+    },
   ],
   webServer: {
     command: `npx next start -p ${PORT}`,

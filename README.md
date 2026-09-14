@@ -177,9 +177,14 @@ Zero violations. Plus:
 ## Tests
 
 ```bash
-npm test                 # 78 tests across 390, 834 and 1440
+npm test                 # 111 tests across 390, 834 and 1440
 npm run test:update      # refresh visual snapshots
 ```
+
+CI runs the smoke and accessibility suites only. The visual baselines are
+rendered on one machine, and font rasterisation differs enough between machines
+that pixel comparison is a local tool rather than a gate. Run `npm run
+test:update` once after cloning to generate them.
 
 `tests/smoke.spec.ts` covers every route, the command palette, the rating
 widget, the capability filter, the resume download, the Open Graph card, the

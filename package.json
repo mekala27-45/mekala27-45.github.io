@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "analyze": "ANALYZE=true next build",
-    "export": "STATIC_EXPORT=true next build",
+    "export": "STATIC_EXPORT=true next build && node scripts/fix-export-og.mjs",
     "resume:pdf": "node scripts/build-resume-pdf.mjs",
     "test": "playwright test",
     "test:update": "playwright test --update-snapshots",
