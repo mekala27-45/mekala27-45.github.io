@@ -67,8 +67,17 @@ test.describe('smoke', () => {
     const widget = page.locator('#evaluation')
     await widget.scrollIntoViewIfNeeded()
     await expect(widget.getByText('WHICH RESPONSE IS STRONGER')).toBeVisible()
-    await widget.getByRole('button', { name: /CANDIDATE B/ }).click()
-    await expect(widget.getByText('FAILURE MODE IN THE WEAKER ANSWER')).toBeVisible()
+
+    // The widget is code split, so on a slow machine the markup is present and
+    // clickable before its handler is attached and the first click is swallowed.
+    // Retrying the click is the only reliable signal that hydration has landed.
+    await expect(async () => {
+      await widget.getByRole('button', { name: /CANDIDATE B/ }).click()
+      await expect(widget.getByText('FAILURE MODE IN THE WEAKER ANSWER')).toBeVisible({
+        timeout: 2000,
+      })
+    }).toPass({ timeout: 30_000 })
+
     await expect(widget.getByText('Stronger').first()).toBeVisible()
   })
 
@@ -76,8 +85,15 @@ test.describe('smoke', () => {
     await page.goto('/')
     const section = page.locator('#capabilities')
     await section.scrollIntoViewIfNeeded()
-    await section.getByRole('button', { name: 'Evaluation', exact: true }).click()
-    await expect(section.getByText(/10 capabilities in Evaluation/)).toBeVisible()
+
+    // Same code splitting as the evaluation widget: retry until the filter
+    // actually takes, rather than assuming the first click is heard.
+    await expect(async () => {
+      await section.getByRole('button', { name: 'Evaluation', exact: true }).click()
+      await expect(section.getByText(/10 capabilities in Evaluation/)).toBeVisible({
+        timeout: 2000,
+      })
+    }).toPass({ timeout: 30_000 })
   })
 
   test('every section heading is reachable from the page', async ({ page }) => {

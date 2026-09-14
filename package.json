@@ -14,10 +14,12 @@
     "analyze": "ANALYZE=true next build",
     "export": "STATIC_EXPORT=true next build && node scripts/fix-export-og.mjs",
     "resume:pdf": "node scripts/build-resume-pdf.mjs",
-    "test": "playwright test",
-    "test:update": "playwright test --update-snapshots",
+    "test": "playwright test tests/smoke.spec.ts tests/accessibility.spec.ts",
+    "test:update": "playwright test tests/visual.spec.ts --update-snapshots",
     "lighthouse": "node scripts/lighthouse.mjs",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:visual": "playwright test tests/visual.spec.ts",
+    "test:all": "playwright test"
   },
   "dependencies": {
     "@shikijs/rehype": "4.4.3",
