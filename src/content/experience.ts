@@ -87,19 +87,6 @@ export const roles: Role[] = [
       'llama.cpp',
     ],
   },
-  {
-    id: 'montclair',
-    title: 'Data Analyst Intern (Part-Time)',
-    company: 'Montclair State University',
-    location: 'Montclair, NJ',
-    dates: 'April 2025 to July 2025',
-    bullets: [
-      'Analyzed 114+ community engagement projects using statistical analysis, NLP and time-series methods.',
-      'Built 20+ interactive dashboards in Python, Tableau and Power BI that cut report preparation time 40 percent.',
-      'Applied text classification and sentiment analysis to 5,000+ qualitative survey responses, producing a strategic report presented at a multi-university conference.',
-    ],
-    tech: ['Python', 'Pandas', 'NumPy', 'SQL', 'NLP', 'Tableau', 'Power BI'],
-  },
 ]
 
 export const education: Education[] = [
